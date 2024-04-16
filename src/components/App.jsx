@@ -16,12 +16,14 @@ const App = () => {
     const options = {
         headers: {
             accept: 'application/json',
-            Authorization: process.env.ApiKey,
+            Authorization: "Bearer " + import.meta.env.VITE_APIKEY,
         }
     };
     const [trendingMovies, setTrendingMovies] = useState([]);
     const [movie, setMovie] = useState({});
     const [searchedMovies, setSearchMovies] = useState([]);
+    console.log(options);
+    console.log(import.meta.env);
 
     const getTrendingMovies = async () => {
         try {
