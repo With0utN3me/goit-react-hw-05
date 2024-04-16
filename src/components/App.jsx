@@ -13,19 +13,18 @@ import MovieReviews from './MovieReviews/MovieReviews';
 import Navigation from './Navigation/Navigation';
 
 const App = () => {
-    const apiKey = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhZmY0NTQ5ZWFjOWI5NGZiMjE4MjllODQ0ZDZjYmNkMyIsInN1YiI6IjY2MWQ1ZmYzZmQ0YTk2MDE4NjZjNWIyYyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.KlgWz20RIDirCe2-Y6PsAoagIIf4qSaURXggz0HXvTk";
-
+    const options = {
+        headers: {
+            accept: 'application/json',
+            Authorization: process.env.ApiKey,
+        }
+    };
     const [trendingMovies, setTrendingMovies] = useState([]);
     const [movie, setMovie] = useState({});
+    const [searchedMovies, setSearchMovies] = useState([]);
 
     const getTrendingMovies = async () => {
         try {
-            const options = {
-                headers: {
-                    accept: 'application/json',
-                    Authorization: apiKey,
-                }
-            };
             const response = await axios.get('https://api.themoviedb.org/3/trending/movie/day?language=en-US', options);
             if (response.data.results.length > 0){
                 setTrendingMovies(response.data.results);
@@ -42,16 +41,22 @@ const App = () => {
 
     const getMovieById = async (movieId) => {
         try {
-            const options = {
-                headers: {
-                    accept: 'application/json',
-                    Authorization: apiKey,
-                }
-            };
             const response = await axios.get(`https://api.themoviedb.org/3/movie/${movieId}?language=en-US`, options);
             if (response){
                 setMovie(response.data);
-                console.log(response.data);
+            } else {
+                console.log("No data found");
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    const getMovies = async (topic) => {
+        try {
+            const response = await axios.get(`https://api.themoviedb.org/3/search/movie?query=${topic}&include_adult=false&language=en-US&page=1`, options);
+            if (response){
+                setSearchMovies(response.data.results);
             } else {
                 console.log("No data found");
             }
@@ -65,7 +70,7 @@ const App = () => {
 
             <Routes>
                 <Route path='/' element={<HomePage moviesList={trendingMovies} />} />
-                <Route path='/movies' element={<MoviesPage />} />
+                <Route path='/movies' element={<MoviesPage onSearch={getMovies} moviesList={searchedMovies}/>} />
                     <Route path='/movies/:movieId' element={<MovieDetailsPage getMovieById={getMovieById} movie={movie}/>}>
                         <Route path='cast' element={<MovieCast />} />
                         <Route path='reviews' element={<MovieReviews />} />

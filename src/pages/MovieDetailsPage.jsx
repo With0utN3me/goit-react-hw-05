@@ -28,7 +28,7 @@ const MovieDetailsPage = ({getMovieById, movie}) => {
 
                     <li>
                         <h3>Rating</h3>
-                        {movie.vote_average.toFixed(1)}
+                        {movie.vote_average && movie.vote_average.toFixed(1)}
                     </li>
 
                     <li>
