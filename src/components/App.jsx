@@ -3,14 +3,15 @@ import { useState, useEffect, lazy, Suspense } from 'react';
 import axios from 'axios';
 import { Routes, Route } from "react-router-dom";
 
-import HomePage from '../pages/HomePage';
-import MovieDetailsPage from '../pages/MovieDetailsPage';
-import MoviesPage from '../pages/MoviesPage';
 import NotFoundPage from '../pages/NotFoundPage';
-
-import MovieCast from './MovieCast/MovieCast';
-import MovieReviews from './MovieReviews/MovieReviews';
 import Navigation from './Navigation/Navigation';
+
+const HomePage = lazy(() => import('../pages/HomePage'));
+const MovieDetailsPage = lazy(() => import('../pages/MovieDetailsPage'));
+const MoviesPage = lazy(() => import('../pages/MoviesPage'));
+
+const MovieCast = lazy(() => import('./MovieCast/MovieCast'));
+const MovieReviews = lazy(() => import('./MovieReviews/MovieReviews'));
 
 const App = () => {
     const options = {
@@ -22,8 +23,8 @@ const App = () => {
     const [trendingMovies, setTrendingMovies] = useState([]);
     const [movie, setMovie] = useState({});
     const [searchedMovies, setSearchMovies] = useState([]);
-    console.log(options);
-    console.log(import.meta.env);
+    const [movieCast, setMovieCast] = useState([]);
+    const [movieReviews, setReviews] = useState([]);
 
     const getTrendingMovies = async () => {
         try {
@@ -66,19 +67,44 @@ const App = () => {
             console.error(error);
         }
     }
+    const getCast = async (movieId) => {
+        try {
+            const response = await axios.get(`https://api.themoviedb.org/3/movie/${movieId}/credits?language=en-US`, options);
+            if (response){
+                setMovieCast(response.data.cast);
+            } else {
+                console.log("No data found");
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+    const getReviews = async (movieId) => {
+        try {
+            const response = await axios.get(`https://api.themoviedb.org/3/movie/${movieId}/reviews?language=en-US`, options);
+            if (response){
+                setReviews(response.data.results);
+            } else {
+                console.log("No data found");
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
     return (
         <div>
             <Navigation />
-
-            <Routes>
-                <Route path='/' element={<HomePage moviesList={trendingMovies} />} />
-                <Route path='/movies' element={<MoviesPage onSearch={getMovies} moviesList={searchedMovies}/>} />
-                    <Route path='/movies/:movieId' element={<MovieDetailsPage getMovieById={getMovieById} movie={movie}/>}>
-                        <Route path='cast' element={<MovieCast />} />
-                        <Route path='reviews' element={<MovieReviews />} />
-                    </Route>
-                <Route path='*' element={<NotFoundPage />} />
-            </Routes>
+            <Suspense fallback={<div>Loading page...</div>}>
+                <Routes>
+                    <Route path='/' element={<HomePage moviesList={trendingMovies} />} />
+                    <Route path='/movies' element={<MoviesPage onSearch={getMovies} moviesList={searchedMovies}/>} />
+                        <Route path='/movies/:movieId' element={<MovieDetailsPage getMovieById={getMovieById} movie={movie}/>}>
+                            <Route path='cast' element={<MovieCast cast={movieCast} getCast={getCast}/>} />
+                            <Route path='reviews' element={<MovieReviews reviews={movieReviews} getReviews={getReviews}/>} />
+                        </Route>
+                    <Route path='*' element={<NotFoundPage />} />
+                </Routes>
+            </Suspense>
         </div>
     );
 }

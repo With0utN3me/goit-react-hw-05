@@ -5,10 +5,12 @@ const MoviesPage = ({ onSearch, moviesList }) => {
     const [searchParams, setSearchParams] = useSearchParams();
     const query = searchParams.get("query");
     useEffect(() => {
-        if(query === "" || query === null) return;
-        console.log(query);
-        onSearch(query);
-    }, [query]);
+        if (query && query.trim() !== "") {
+            onSearch(query);
+        } else {
+            onSearch("");
+        }
+    }, [query, onSearch]);
 
     const handleSubmit = (evt) => {
         evt.preventDefault();

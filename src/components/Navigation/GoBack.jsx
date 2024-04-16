@@ -1,8 +1,12 @@
+import { HiArrowLeft } from 'react-icons/hi';
 import { Link } from "react-router-dom";
 
-const GoBack = () => {
+const GoBack = ({ to, children }) => {
     return(
-        <Link to="/">Go Back</Link>
+        <Link to={to}>
+            <HiArrowLeft size="22" />
+            {children}
+        </Link>
     )
 }
 export default GoBack;
