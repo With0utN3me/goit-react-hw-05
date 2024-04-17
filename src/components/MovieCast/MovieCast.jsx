@@ -12,7 +12,7 @@ const MovieCast = ({cast, getCast }) => {
             {cast && cast.length > 0 ? (
                 <ul className={css.castList}>
                     {cast.map(actor => (
-                        <li className={css.castItem} key={actor.id}>
+                        <li className={css.castItem} key={actor.credit_id}>
                             
                             {actor.profile_path ? (
                                 <img className={css.actorImage} src={`https://image.tmdb.org/t/p/w500${actor.profile_path}`} alt="No Photo" />

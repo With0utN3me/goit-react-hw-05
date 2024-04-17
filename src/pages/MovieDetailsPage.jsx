@@ -11,12 +11,8 @@ const MovieDetailsPage = ({getMovieById, movie}) => {
     }, []);
 
     const location = useLocation();
-    let backLinkHref = '/movies';
-    if(location.state){
-        backLinkHref = `/movies${location.state.search}`;
-    }
-    console.log(backLinkHref);
-    console.log(location.state);
+    const backLinkHref = location.state.from ?? '/movies';
+    console.log(location);
 
 
     return (
@@ -59,8 +55,8 @@ const MovieDetailsPage = ({getMovieById, movie}) => {
             <div className={css.addInfo}>
                 <h3 className={css.infoTitle}>Additional information</h3>
                 <div className={css.linkCenter}>
-                    <Link className={css.link} to={{ pathname: `/movies/${movieId}/cast`, state: location.state }}><p>Movie Cast</p></Link>
-                    <Link className={css.link}to={{ pathname: `/movies/${movieId}/reviews`, state: location.state }}><p>Movie Reviews</p></Link>
+                    <Link to={`/movies/${movieId}/cast`} state={{ from: location }} className={css.link}><p>Movie Cast</p></Link>
+                    <Link to={`/movies/${movieId}/reviews`} state={{ from: location }} className={css.link}><p>Movie Reviews</p></Link>
                 </div>
             </div>
             <div className={css.addListWrap}>
