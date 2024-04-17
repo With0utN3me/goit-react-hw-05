@@ -1,5 +1,5 @@
 import { useParams, useLocation } from 'react-router-dom';
-import {useEffect, Suspense} from 'react';
+import { useEffect, Suspense, useRef } from 'react';
 import { Link, Outlet } from "react-router-dom";
 import GoBack from '../components/Navigation/GoBack';
 import css from "./MovieDetailsPage.module.css"
@@ -11,13 +11,11 @@ const MovieDetailsPage = ({getMovieById, movie}) => {
     }, []);
 
     const location = useLocation();
-    const backLinkHref = location.state.from ?? '/movies';
-    console.log(location);
-
+    const backLinkHref = useRef(location.state ?? '/movies');
 
     return (
         <div className={css.mainWrap}>
-            <GoBack to={backLinkHref}>Go back to movies list.</GoBack>
+            <GoBack to={backLinkHref.current}>Go back to movies list.</GoBack>
             <div className={css.centerWrap}>
             <div>
             <h2 className={css.trend}>Movie Details</h2>
@@ -55,8 +53,8 @@ const MovieDetailsPage = ({getMovieById, movie}) => {
             <div className={css.addInfo}>
                 <h3 className={css.infoTitle}>Additional information</h3>
                 <div className={css.linkCenter}>
-                    <Link to={`/movies/${movieId}/cast`} state={{ from: location }} className={css.link}><p>Movie Cast</p></Link>
-                    <Link to={`/movies/${movieId}/reviews`} state={{ from: location }} className={css.link}><p>Movie Reviews</p></Link>
+                    <Link to={`/movies/${movieId}/cast`} state={location} className={css.link}><p>Movie Cast</p></Link>
+                    <Link to={`/movies/${movieId}/reviews`} state={location} className={css.link}><p>Movie Reviews</p></Link>
                 </div>
             </div>
             <div className={css.addListWrap}>
