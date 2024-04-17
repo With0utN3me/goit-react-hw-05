@@ -5,6 +5,11 @@
   align-items: center;
   text-align: center;
   font-size: 19px;
+  color: rgb(224, 220, 220);
+
+}
+body{
+  background-color: rgb(32, 30, 30);
 }
 
 

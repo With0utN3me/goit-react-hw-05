@@ -1,0 +1,25 @@
+.reviewList{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    text-align: left;
+}
+.reviewItem{
+    max-width: 1200px;
+}
+.author{
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+.reviewText{
+    font-size: 22px;
+    color: rgb(177, 181, 183);
+}
+.noReview{
+    color: rgb(241, 232, 232);
+    text-align: center;
+    font-size: 33px;
+    padding-bottom: 30px;
+}

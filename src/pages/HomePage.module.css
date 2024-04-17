@@ -1,0 +1,11 @@
+.main{
+    max-width: 1400px;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+}
+.trend{
+    font-size: 32px;
+    text-align: left;
+    margin-bottom: 16px;
+}

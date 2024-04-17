@@ -1,0 +1,33 @@
+.movieList{
+    display: flex;
+    flex-direction: row;
+    row-gap: 50px;
+    column-gap: 25px;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+.listItem{
+    flex-basis: calc((100% - 3 * 25px) / 4);
+    height: 550px;
+    border-radius: 5px;
+    overflow: hidden;
+    background-color: rgb(22, 21, 21);
+    box-shadow: 3px 3px 4px 0 rgb(15, 15, 15);
+}
+.listImage{
+    height: 480px;
+    width: 100%;
+    display: block;
+    object-fit: cover;
+}
+.movieInfoWrap{
+    margin-top: 8px;
+}
+.movieInfo{
+    font-size: 18px;
+}
+.link{
+    text-decoration: none;
+    color: rgb(163, 161, 161);
+}

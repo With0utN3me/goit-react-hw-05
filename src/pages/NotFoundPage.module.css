@@ -1,0 +1,13 @@
+.noPageWrap{
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+.goBackBtn{
+    align-self: baseline;
+    margin-left: 20px;
+}
+.noPageText{
+    font-size: 32px;
+    color: rgb(244, 232, 232);
+}

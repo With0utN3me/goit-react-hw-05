@@ -1,6 +1,7 @@
 import { useSearchParams } from "react-router-dom";
 import { useEffect } from 'react';
 import MovieList from '../components/MovieList/MovieList';
+import css from "./MoviesPage.module.css"
 const MoviesPage = ({ onSearch, moviesList }) => {
     const [searchParams, setSearchParams] = useSearchParams();
     const query = searchParams.get("query");
@@ -26,9 +27,8 @@ const MoviesPage = ({ onSearch, moviesList }) => {
 
     return(
         <div>
-            <p>Movies Page</p>
-            <form onSubmit={handleSubmit}>
-                <button type="submit">&#x1f50d;</button>
+            <form className={css.form} onSubmit={handleSubmit}>
+                <button className={css.btn} type="submit">&#x1f50d;</button>
                 <input
                     id='search_bar'
                     type="text"
@@ -36,9 +36,12 @@ const MoviesPage = ({ onSearch, moviesList }) => {
                     name="movie"
                     autoFocus
                     placeholder="Search movies"
+                    className={css.input}
                 />
             </form>
-            {moviesList.length > 0 && <MovieList movies={moviesList}/>}
+            <div className={css.listWrap}>
+                {moviesList.length > 0 && <MovieList movies={moviesList}/>}
+            </div>
         </div>
     )
 }

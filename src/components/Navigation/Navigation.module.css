@@ -1,0 +1,32 @@
+.header{
+    display: flex;
+    justify-content: center;
+    padding: 12px 0;
+    width: 99vw;
+    margin-bottom: 16px;
+    background-color: black;
+}
+.nav{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+}
+.link{
+    padding: 6px 12px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 21px;
+    color: rgb(224, 220, 220);
+}
+.link:hover{
+    color: rgb(215, 70, 17);
+}
+.active {
+    color: rgb(224, 220, 220);
+    background-color: rgb(215, 70, 17);
+}
+.active:hover {
+    color: rgb(224, 220, 220);
+}
