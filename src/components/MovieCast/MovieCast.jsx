@@ -5,7 +5,7 @@ const MovieCast = ({cast, getCast }) => {
     const { movieId } = useParams();
     useEffect(() => {
         getCast(movieId);
-    }, []);
+    }, [movieId]);
 
     return (
         <>

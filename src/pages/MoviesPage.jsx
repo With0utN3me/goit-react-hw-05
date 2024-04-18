@@ -1,17 +1,33 @@
 import { useSearchParams } from "react-router-dom";
-import { useEffect } from 'react';
+import axios from 'axios';
+import { useState, useEffect } from 'react';
 import MovieList from '../components/MovieList/MovieList';
 import css from "./MoviesPage.module.css"
-const MoviesPage = ({ onSearch, moviesList }) => {
+const MoviesPage = ({options}) => {
+    const [searchedMovies, setSearchMovies] = useState([]);
     const [searchParams, setSearchParams] = useSearchParams();
+
+    const getMovies = async (topic) => {
+        try {
+            const response = await axios.get(`https://api.themoviedb.org/3/search/movie?query=${topic}&include_adult=false&language=en-US&page=1`, options);
+            if (response){
+                setSearchMovies(response.data.results);
+            } else {
+                console.log("No data found");
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     const query = searchParams.get("query");
     useEffect(() => {
         if (query && query.trim() !== "") {
-            onSearch(query);
+            getMovies(query);
         } else {
-            onSearch("");
+            getMovies("");
         }
-    }, [query, onSearch]);
+    }, [query, getMovies]);
 
     const handleSubmit = (evt) => {
         evt.preventDefault();
@@ -40,7 +56,7 @@ const MoviesPage = ({ onSearch, moviesList }) => {
                 />
             </form>
             <div className={css.listWrap}>
-                {moviesList.length > 0 && <MovieList movies={moviesList}/>}
+                {searchedMovies.length > 0 && <MovieList movies={searchedMovies}/>}
             </div>
         </div>
     )

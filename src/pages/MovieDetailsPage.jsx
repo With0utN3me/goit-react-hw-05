@@ -1,17 +1,32 @@
 import { useParams, useLocation } from 'react-router-dom';
-import { useEffect, Suspense, useRef } from 'react';
+import axios from 'axios';
+import { useState, useEffect, Suspense, useRef } from 'react';
 import { Link, Outlet } from "react-router-dom";
 import GoBack from '../components/Navigation/GoBack';
 import css from "./MovieDetailsPage.module.css"
-const MovieDetailsPage = ({getMovieById, movie}) => {
+const MovieDetailsPage = ({options}) => {
     const { movieId } = useParams();
+    const [movie, setMovie] = useState({});
+
+    const getMovieById = async (id) => {
+        try {
+            const response = await axios.get(`https://api.themoviedb.org/3/movie/${id}?language=en-US`, options);
+            if (response){
+                setMovie(response.data);
+            } else {
+                console.log("No data found");
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
 
     useEffect(() => {
         getMovieById(movieId)
-    }, []);
+    }, [movieId]);
 
     const location = useLocation();
-    const backLinkHref = useRef(location.state ?? '/movies');
+    let backLinkHref = useRef(location.state ?? '/movies');
 
     return (
         <div className={css.mainWrap}>
