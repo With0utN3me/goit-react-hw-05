@@ -1,13 +1,13 @@
 import { useSearchParams } from "react-router-dom";
 import axios from 'axios';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import MovieList from '../components/MovieList/MovieList';
 import css from "./MoviesPage.module.css"
 const MoviesPage = ({options}) => {
     const [searchedMovies, setSearchMovies] = useState([]);
     const [searchParams, setSearchParams] = useSearchParams();
 
-    const getMovies = async (topic) => {
+    const getMovies = useCallback(async (topic) => {
         try {
             const response = await axios.get(`https://api.themoviedb.org/3/search/movie?query=${topic}&include_adult=false&language=en-US&page=1`, options);
             if (response){
@@ -18,7 +18,7 @@ const MoviesPage = ({options}) => {
         } catch (error) {
             console.error(error);
         }
-    }
+    })
 
     const query = searchParams.get("query");
     useEffect(() => {
